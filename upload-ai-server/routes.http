@@ -1,0 +1,48 @@
+# @name index
+GET http://localhost:3333/
+
+###
+
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload-video
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="audio.mp3"
+Content-Type: audio/mpeg
+
+< ./bad-religion.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/4f98162f-57f4-4e7c-b0a7-01c79e80257a/transcription
+Content-Type: application/json
+
+{
+  "prompt": "pope fracis, look at him"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "4f98162f-57f4-4e7c-b0a7-01c79e80257a",
+  "temperature": 0.5,
+  "template": "Gere um resumo sucindo da transcrição do vídeo informada a seguir: '''{transcription}'''"
+}
+
+###
+
+# @name delete-video
+DELETE  http://localhost:3333/videos/8eecea1c-d801-4288-8096-6f6080210129
+Content-Type: application/json
